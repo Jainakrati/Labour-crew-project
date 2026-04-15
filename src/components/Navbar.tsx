@@ -62,11 +62,11 @@ export default function Navbar({ user, userData }) {
   };
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
+    <nav id="main-navbar" className="bg-white shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center space-x-2">
+        <div id="navbar-container" className="flex justify-between h-16">
+          <div id="navbar-logo-section" className="flex items-center">
+            <Link id="navbar-logo-link" to="/" className="flex-shrink-0 flex items-center space-x-2">
               <div className="bg-indigo-600 p-2 rounded-lg">
                 <Hammer className="h-6 w-6 text-white" />
               </div>
@@ -77,49 +77,51 @@ export default function Navbar({ user, userData }) {
           </div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-indigo-600 font-medium flex items-center space-x-1">
+          <div id="desktop-menu" className="hidden md:flex items-center space-x-8">
+            <Link id="nav-home" to="/" className="text-gray-700 hover:text-indigo-600 font-medium flex items-center space-x-1">
               <HomeIcon className="h-4 w-4" />
               <span>Home</span>
             </Link>
-            <Link to="/about" className="text-gray-700 hover:text-indigo-600 font-medium flex items-center space-x-1">
+            <Link id="nav-about" to="/about" className="text-gray-700 hover:text-indigo-600 font-medium flex items-center space-x-1">
               <Info className="h-4 w-4" />
               <span>About</span>
             </Link>
             
             {user ? (
               <>
-                <Link to="/dashboard" className="text-gray-700 hover:text-indigo-600 font-medium flex items-center space-x-1">
+                <Link id="nav-dashboard" to="/dashboard" className="text-gray-700 hover:text-indigo-600 font-medium flex items-center space-x-1">
                   <LayoutDashboard className="h-4 w-4" />
                   <span>Dashboard</span>
                 </Link>
                 
                 {userData?.role === 'admin' && (
-                  <Link to="/admin" className="text-gray-700 hover:text-red-600 font-medium flex items-center space-x-1">
+                  <Link id="nav-admin" to="/admin" className="text-gray-700 hover:text-red-600 font-medium flex items-center space-x-1">
                     <ShieldAlert className="h-4 w-4" />
                     <span>Admin</span>
                   </Link>
                 )}
                 
-                <div className="relative">
+                <div id="notifications-dropdown-container" className="relative">
                   <button 
+                    id="notifications-toggle-btn"
                     onClick={() => setShowNotifications(!showNotifications)}
                     className="relative p-2 text-gray-700 hover:text-indigo-600 transition-colors"
                   >
                     <Bell className="h-6 w-6" />
                     {notifications.length > 0 && (
-                      <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+                      <span id="notifications-badge" className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
                         {notifications.length}
                       </span>
                     )}
                   </button>
                   
                   {showNotifications && (
-                    <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100">
+                    <div id="notifications-dropdown" className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-100">
                       <div className="px-4 py-2 border-b border-gray-100 flex justify-between items-center">
                         <span className="font-bold text-gray-800">Notifications</span>
                         {notifications.length > 0 && (
                           <button 
+                            id="mark-all-read-btn"
                             onClick={markAllAsRead}
                             className="text-xs text-indigo-600 hover:text-indigo-700 font-bold"
                           >
@@ -127,9 +129,9 @@ export default function Navbar({ user, userData }) {
                           </button>
                         )}
                       </div>
-                      <div className="max-h-96 overflow-y-auto">
+                      <div id="notifications-list" className="max-h-96 overflow-y-auto">
                         {notifications.length === 0 ? (
-                          <div className="px-4 py-6 text-center text-gray-500">
+                          <div id="no-notifications-msg" className="px-4 py-6 text-center text-gray-500">
                             No new notifications
                           </div>
                         ) : (
@@ -145,16 +147,17 @@ export default function Navbar({ user, userData }) {
                   )}
                 </div>
 
-                <div className="flex items-center space-x-4">
-                  <Link to={`/profile/${user.uid}`} className="flex items-center space-x-2 bg-gray-100 px-3 py-1.5 rounded-full hover:bg-gray-200 transition-colors">
+                <div id="user-menu" className="flex items-center space-x-4">
+                  <Link id="profile-link" to={`/profile/${user.uid}`} className="flex items-center space-x-2 bg-gray-100 px-3 py-1.5 rounded-full hover:bg-gray-200 transition-colors">
                     {userData?.photoURL ? (
-                      <img src={userData.photoURL} alt="Profile" className="h-8 w-8 rounded-full object-cover" referrerPolicy="no-referrer" />
+                      <img id="user-avatar" src={userData.photoURL} alt="Profile" className="h-8 w-8 rounded-full object-cover" referrerPolicy="no-referrer" />
                     ) : (
                       <User className="h-5 w-5 text-gray-600" />
                     )}
-                    <span className="text-sm font-medium text-gray-700">{userData?.displayName || user?.displayName || 'User'}</span>
+                    <span id="user-display-name" className="text-sm font-medium text-gray-700">{userData?.displayName || user?.displayName || 'User'}</span>
                   </Link>
                   <button 
+                    id="logout-btn"
                     onClick={handleLogout}
                     className="text-gray-700 hover:text-red-600 transition-colors"
                   >
@@ -164,6 +167,7 @@ export default function Navbar({ user, userData }) {
               </>
             ) : (
               <Link 
+                id="get-started-btn"
                 to="/auth" 
                 className="bg-indigo-600 text-white px-6 py-2 rounded-full font-bold hover:bg-indigo-700 transition-all transform hover:scale-105 shadow-md"
               >

@@ -65,9 +65,9 @@ const testimonials = [
 
 export default function Home() {
   return (
-    <div className="overflow-hidden">
+    <div id="home-page" className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center pt-20 pb-32 overflow-hidden">
+      <section id="hero-section" className="relative min-h-[90vh] flex items-center pt-20 pb-32 overflow-hidden">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <img 
@@ -104,17 +104,18 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
+              id="hero-content"
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6">
+              <h1 id="hero-title" className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-6">
                 Connecting <span className="text-yellow-300">Skilled Hands</span> with Urgent Needs
               </h1>
               <p className="text-xl text-indigo-100 mb-10 leading-relaxed max-w-xl">
                 The most trusted platform for daily labor hiring. Fast, secure, and reliable connections for every task.
               </p>
-              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+              <div id="hero-cta-buttons" className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                 <Link 
                   to="/auth" 
                   className="bg-white text-indigo-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-300 hover:text-indigo-800 transition-all transform hover:scale-105 shadow-2xl flex items-center justify-center space-x-2"
@@ -209,16 +210,16 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 bg-white">
+      <section id="features-section" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
+          <div id="features-header" className="text-center mb-20">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose Labour Crew?</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               We provide a seamless experience for both hirers and workers with our advanced features.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div id="features-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
               <motion.div
                 key={index}
@@ -237,7 +238,7 @@ export default function Home() {
       </section>
 
       {/* Statistics Section */}
-      <section className="py-20 relative overflow-hidden">
+      <section id="stats-section" className="py-20 relative overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=2000" 
@@ -270,9 +271,9 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-24 bg-gray-50">
+      <section id="testimonials-section" className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
+          <div id="testimonials-header" className="text-center mb-20">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Community Says</h2>
             <p className="text-xl text-gray-600">Real stories from real people using Labour Crew.</p>
           </div>
@@ -306,9 +307,9 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24">
+      <section id="cta-section" className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-[3rem] p-12 md:p-20 text-center overflow-hidden shadow-2xl">
+          <div id="cta-banner" className="relative rounded-[3rem] p-12 md:p-20 text-center overflow-hidden shadow-2xl">
             <div className="absolute inset-0 z-0">
               <img 
                 src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&q=80&w=2000" 

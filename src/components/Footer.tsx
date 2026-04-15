@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white pt-16 pb-8">
+    <footer id="main-footer" className="bg-gray-900 text-white pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div id="footer-grid" className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
-          <div className="space-y-6">
-            <Link to="/" className="flex items-center space-x-2">
+          <div id="footer-brand-section" className="space-y-6">
+            <Link id="footer-logo-link" to="/" className="flex items-center space-x-2">
               <div className="bg-indigo-600 p-2 rounded-lg">
                 <Hammer className="h-6 w-6 text-white" />
               </div>
@@ -17,7 +17,7 @@ export default function Footer() {
             <p className="text-gray-400 leading-relaxed">
               Connecting skilled daily laborers with reliable hirers. Building a community of trust and opportunity.
             </p>
-            <div className="flex space-x-4">
+            <div id="footer-social-links" className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors"><Facebook className="h-5 w-5" /></a>
               <a href="#" className="text-gray-400 hover:text-white transition-colors"><Twitter className="h-5 w-5" /></a>
               <a href="#" className="text-gray-400 hover:text-white transition-colors"><Instagram className="h-5 w-5" /></a>
@@ -26,7 +26,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div>
+          <div id="footer-quick-links">
             <h3 className="text-lg font-bold mb-6">Quick Links</h3>
             <ul className="space-y-4">
               <li><Link to="/" className="text-gray-400 hover:text-white transition-colors">Home</Link></li>
@@ -37,7 +37,7 @@ export default function Footer() {
           </div>
 
           {/* Services */}
-          <div>
+          <div id="footer-user-links">
             <h3 className="text-lg font-bold mb-6">For Users</h3>
             <ul className="space-y-4">
               <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Find Work</a></li>
@@ -48,7 +48,7 @@ export default function Footer() {
           </div>
 
           {/* Contact */}
-          <div>
+          <div id="footer-contact-section">
             <h3 className="text-lg font-bold mb-6">Contact Us</h3>
             <ul className="space-y-4">
               <li className="flex items-center space-x-3 text-gray-400">
@@ -67,7 +67,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+        <div id="footer-bottom" className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
           <p>© {new Date().getFullYear()} Labour Crew. All rights reserved.</p>
         </div>
       </div>

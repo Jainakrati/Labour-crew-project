@@ -4,16 +4,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, X, Send, Loader2, User, Bot, Minimize2, Maximize2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 
-interface Message {
-  role: 'user' | 'bot';
-  content: string;
-  timestamp: Date;
-}
-
 export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState([
     {
       role: 'bot',
       content: 'Hi! I am TaskAI, your intelligent assistant for this platform. I can help you find jobs, post tasks, and manage your profile. How can I assist you today?',
@@ -22,7 +16,7 @@ export default function ChatBot() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -35,7 +29,7 @@ export default function ChatBot() {
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
-    const userMessage: Message = {
+    const userMessage = {
       role: 'user',
       content: input,
       timestamp: new Date(),
@@ -69,7 +63,7 @@ export default function ChatBot() {
         },
       });
 
-      const botMessage: Message = {
+      const botMessage = {
         role: 'bot',
         content: response.text || "I'm sorry, I couldn't process that request.",
         timestamp: new Date(),
@@ -78,7 +72,7 @@ export default function ChatBot() {
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
       console.error("ChatBot Error:", error);
-      const errorMessage: Message = {
+      const errorMessage = {
         role: 'bot',
         content: "Sorry, I'm having some trouble connecting right now. Please try again later.",
         timestamp: new Date(),
@@ -90,10 +84,11 @@ export default function ChatBot() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div id="chatbot-container" className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            id="chatbot-window"
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ 
               opacity: 1, 
@@ -106,7 +101,7 @@ export default function ChatBot() {
             className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden mb-4 flex flex-col"
           >
             {/* Header */}
-            <div className="bg-indigo-600 p-4 text-white flex items-center justify-between shrink-0">
+            <div id="chatbot-header" className="bg-indigo-600 p-4 text-white flex items-center justify-between shrink-0">
               <div className="flex items-center space-x-2">
                 <div className="bg-white/20 p-1.5 rounded-lg">
                   <Bot className="h-5 w-5" />
@@ -121,12 +116,14 @@ export default function ChatBot() {
               </div>
               <div className="flex items-center space-x-1">
                 <button 
+                  id="chatbot-minimize-btn"
                   onClick={() => setIsMinimized(!isMinimized)}
                   className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
                 >
                   {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minimize2 className="h-4 w-4" />}
                 </button>
                 <button 
+                  id="chatbot-close-btn"
                   onClick={() => setIsOpen(false)}
                   className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
                 >
@@ -138,7 +135,7 @@ export default function ChatBot() {
             {!isMinimized && (
               <>
                 {/* Messages */}
-                <div className="flex-grow overflow-y-auto p-4 space-y-4 bg-gray-50/50">
+                <div id="chatbot-messages" className="flex-grow overflow-y-auto p-4 space-y-4 bg-gray-50/50">
                   {messages.map((msg, idx) => (
                     <motion.div
                       initial={{ opacity: 0, x: msg.role === 'user' ? 10 : -10 }}
@@ -172,7 +169,7 @@ export default function ChatBot() {
                     </motion.div>
                   ))}
                   {isLoading && (
-                    <div className="flex items-start space-x-2">
+                    <div id="chatbot-loading" className="flex items-start space-x-2">
                       <div className="shrink-0 p-1.5 rounded-lg bg-white text-gray-600 shadow-sm">
                         <Bot className="h-4 w-4" />
                       </div>
@@ -185,8 +182,9 @@ export default function ChatBot() {
                 </div>
 
                 {/* Input */}
-                <div className="p-4 bg-white border-t border-gray-100 shrink-0">
+                <div id="chatbot-input-container" className="p-4 bg-white border-t border-gray-100 shrink-0">
                   <form 
+                    id="chatbot-form"
                     onSubmit={(e) => {
                       e.preventDefault();
                       handleSend();
@@ -194,6 +192,7 @@ export default function ChatBot() {
                     className="relative"
                   >
                     <input 
+                      id="chatbot-input-field"
                       type="text"
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
@@ -201,6 +200,7 @@ export default function ChatBot() {
                       className="w-full pl-4 pr-12 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm transition-all"
                     />
                     <button 
+                      id="chatbot-send-btn"
                       type="submit"
                       disabled={!input.trim() || isLoading}
                       className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-indigo-100"
@@ -215,9 +215,10 @@ export default function ChatBot() {
         )}
       </AnimatePresence>
 
-      <div className="flex items-center">
+      <div id="chatbot-toggle-container" className="flex items-center">
         {!isOpen && (
           <motion.div
+            id="chatbot-label"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             className="mr-3 bg-white px-4 py-2 rounded-xl shadow-xl border border-gray-100 text-indigo-600 font-bold text-sm"
@@ -226,6 +227,7 @@ export default function ChatBot() {
           </motion.div>
         )}
         <motion.button
+          id="chatbot-toggle-btn"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => {
