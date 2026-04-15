@@ -20,11 +20,11 @@ Steps
 
 Clone the repository:
 
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+git clone https://github.com/jainakrati/Labour-crew-project.git
 
 Go to the project folder:
 
-cd YOUR_REPO_NAME
+cd _REPO_NAME
 
 Install dependencies:
 
@@ -41,14 +41,10 @@ npm run dev
 Open your browser and go to:
 
 http://localhost:5173
-📷 Screenshots
 
-(Add your project screenshots here)
 
 📈 Future Improvements
 💳 Payment integration
-💬 Real-time chat system
-⭐ Worker rating and review system
 👩‍💻 Author
 
 Akrati Jain
