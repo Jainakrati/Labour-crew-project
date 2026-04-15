@@ -2,11 +2,10 @@
   "entities": {
     "User": {
       "title": "User",
-      "description": "Represents a user in the system (Hirer, Worker, or Admin).",
+      "description": "Represents a user in the system (Hirer, Worker, or Admin). Public profile data.",
       "type": "object",
       "properties": {
         "uid": { "type": "string", "description": "The unique ID from Firebase Auth." },
-        "email": { "type": "string", "format": "email" },
         "displayName": { "type": "string" },
         "role": { "type": "string", "enum": ["hirer", "worker", "admin"] },
         "photoURL": { "type": "string" },
@@ -18,7 +17,16 @@
         "reviewCount": { "type": "number" },
         "createdAt": { "type": "string", "format": "date-time" }
       },
-      "required": ["uid", "email", "role"]
+      "required": ["uid", "role"]
+    },
+    "UserPrivate": {
+      "title": "UserPrivate",
+      "description": "Private user data (PII).",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" }
+      },
+      "required": ["email"]
     },
     "Job": {
       "title": "Job",
@@ -96,7 +104,8 @@
     }
   },
   "firestore": {
-    "/users/{userId}": { "schema": "User", "description": "User profiles." },
+    "/users/{userId}": { "schema": "User", "description": "User profiles (public info)." },
+    "/users/{userId}/private/profile": { "schema": "UserPrivate", "description": "Private user data (email)." },
     "/jobs/{jobId}": { "schema": "Job", "description": "Job listings." },
     "/applications/{applicationId}": { "schema": "Application", "description": "Job applications." },
     "/bookings/{bookingId}": { "schema": "Booking", "description": "Bookings." },
