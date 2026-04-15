@@ -1,0 +1,107 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Represents a user in the system (Hirer, Worker, or Admin).",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique ID from Firebase Auth." },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["hirer", "worker", "admin"] },
+        "photoURL": { "type": "string" },
+        "bio": { "type": "string" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "location": { "type": "string" },
+        "hourlyRate": { "type": "number" },
+        "rating": { "type": "number" },
+        "reviewCount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Job": {
+      "title": "Job",
+      "description": "A job listing posted by a hirer.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "hirerId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "location": { "type": "string" },
+        "salary": { "type": "number" },
+        "status": { "type": "string", "enum": ["open", "closed", "completed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["hirerId", "title", "description", "location", "salary", "status"]
+    },
+    "Application": {
+      "title": "Application",
+      "description": "An application submitted by a worker for a job.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "jobId": { "type": "string" },
+        "workerId": { "type": "string" },
+        "hirerId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["jobId", "workerId", "hirerId", "status"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "A confirmed booking between a hirer and a worker.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "jobId": { "type": "string" },
+        "workerId": { "type": "string" },
+        "hirerId": { "type": "string" },
+        "status": { "type": "string", "enum": ["scheduled", "in-progress", "completed", "cancelled"] },
+        "scheduledAt": { "type": "string", "format": "date-time" },
+        "completedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["jobId", "workerId", "hirerId", "status", "scheduledAt"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "A notification for a user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "message", "read"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "A review given by a hirer to a worker or vice versa.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fromId": { "type": "string" },
+        "toId": { "type": "string" },
+        "bookingId": { "type": "string" },
+        "rating": { "type": "number" },
+        "comment": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fromId", "toId", "bookingId", "rating"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": "User", "description": "User profiles." },
+    "/jobs/{jobId}": { "schema": "Job", "description": "Job listings." },
+    "/applications/{applicationId}": { "schema": "Application", "description": "Job applications." },
+    "/bookings/{bookingId}": { "schema": "Booking", "description": "Bookings." },
+    "/notifications/{notificationId}": { "schema": "Notification", "description": "User notifications." },
+    "/reviews/{reviewId}": { "schema": "Review", "description": "User reviews." },
+    "/test/{docId}": { "schema": { "type": "object", "properties": {} }, "description": "Connection testing." }
+  }
+}
