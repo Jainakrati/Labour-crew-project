@@ -145,16 +145,18 @@ export default function Auth({ user }) {
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
+    <div id="auth-page-container" className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
       <motion.div 
+        id="auth-card"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         className="max-w-4xl w-full bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row"
       >
         {/* Left Side - Visuals */}
-        <div className="md:w-1/2 p-12 text-white flex flex-col justify-between relative overflow-hidden">
+        <div id="auth-left-panel" className="md:w-1/2 p-12 text-white flex flex-col justify-between relative overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
+              id="auth-bg-img"
               src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=1000" 
               alt="Auth background" 
               className="w-full h-full object-cover"
@@ -164,14 +166,14 @@ export default function Auth({ user }) {
           </div>
           
           <div className="relative z-10">
-            <Link to="/" className="flex items-center space-x-2 mb-12">
+            <Link id="auth-logo-link" to="/" className="flex items-center space-x-2 mb-12">
               <div className="bg-white p-2 rounded-lg">
                 <Hammer className="h-6 w-6 text-indigo-600" />
               </div>
               <span className="text-2xl font-bold">Labour Crew</span>
             </Link>
             
-            <h2 className="text-4xl font-bold mb-6">
+            <h2 id="auth-panel-title" className="text-4xl font-bold mb-6">
               {isLogin ? "Welcome Back!" : "Join Our Community"}
             </h2>
             <p className="text-indigo-100 text-lg leading-relaxed mb-8">
@@ -204,11 +206,12 @@ export default function Auth({ user }) {
         </div>
 
         {/* Right Side - Form */}
-        <div className="md:w-1/2 p-8 md:p-12">
+        <div id="auth-right-panel" className="md:w-1/2 p-8 md:p-12">
           <div className="max-w-md mx-auto">
             <div className="flex justify-center mb-8">
-              <div className="inline-flex p-1 bg-gray-100 rounded-xl">
+              <div id="auth-tabs" className="inline-flex p-1 bg-gray-100 rounded-xl">
                 <button
+                  id="login-tab-btn"
                   onClick={() => setIsLogin(true)}
                   className={cn(
                     "px-6 py-2 rounded-lg text-sm font-bold transition-all",
@@ -218,6 +221,7 @@ export default function Auth({ user }) {
                   Login
                 </button>
                 <button
+                  id="signup-tab-btn"
                   onClick={() => setIsLogin(false)}
                   className={cn(
                     "px-6 py-2 rounded-lg text-sm font-bold transition-all",
@@ -229,11 +233,12 @@ export default function Auth({ user }) {
               </div>
             </div>
 
-            <form onSubmit={handleEmailAuth} className="space-y-5">
+            <form id="auth-form" onSubmit={handleEmailAuth} className="space-y-5">
               {!isLogin && (
                 <>
-                  <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div id="role-selection" className="grid grid-cols-2 gap-4 mb-6">
                     <button
+                      id="role-worker-btn"
                       type="button"
                       onClick={() => setRole('worker')}
                       className={cn(
@@ -247,6 +252,7 @@ export default function Auth({ user }) {
                       <span className="font-bold text-sm">Worker</span>
                     </button>
                     <button
+                      id="role-hirer-btn"
                       type="button"
                       onClick={() => setRole('hirer')}
                       className={cn(
@@ -266,6 +272,7 @@ export default function Auth({ user }) {
                       <div className="relative">
                         <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                         <input
+                          id="signup-name-input"
                           type="text"
                           required
                           value={displayName}
@@ -278,13 +285,14 @@ export default function Auth({ user }) {
 
                     {role === 'worker' && (
                       <motion.div
+                        id="worker-details-form"
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         className="space-y-5"
                       >
                         <div>
                           <label className="block text-sm font-bold text-gray-700 mb-3">Select Your Skills</label>
-                          <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto p-2 bg-gray-50 rounded-xl border border-gray-100">
+                          <div id="skills-selection" className="flex flex-wrap gap-2 max-h-40 overflow-y-auto p-2 bg-gray-50 rounded-xl border border-gray-100">
                             {SKILLS_LIST.map((skill) => (
                               <button
                                 key={skill}
@@ -313,6 +321,7 @@ export default function Auth({ user }) {
                           <div className="relative">
                             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                             <select
+                              id="signup-location-select"
                               required
                               value={location}
                               onChange={(e) => setLocation(e.target.value)}
@@ -330,6 +339,7 @@ export default function Auth({ user }) {
                           <div className="relative">
                             <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-gray-400">₹</span>
                             <input
+                              id="signup-rate-input"
                               type="number"
                               required
                               value={hourlyRate}
@@ -349,6 +359,7 @@ export default function Auth({ user }) {
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                   <input
+                    id="auth-email-input"
                     type="email"
                     required
                     value={email}
@@ -364,6 +375,7 @@ export default function Auth({ user }) {
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                   <input
+                    id="auth-password-input"
                     type="password"
                     required
                     value={password}
@@ -375,13 +387,14 @@ export default function Auth({ user }) {
               </div>
 
               {error && (
-                <div className="bg-red-50 text-red-600 p-4 rounded-xl flex items-center space-x-2 text-sm">
+                <div id="auth-error-msg" className="bg-red-50 text-red-600 p-4 rounded-xl flex items-center space-x-2 text-sm">
                   <AlertCircle className="h-5 w-5 flex-shrink-0" />
                   <span>{error}</span>
                 </div>
               )}
 
               <button
+                id="auth-submit-btn"
                 type="submit"
                 disabled={loading}
                 className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
@@ -407,6 +420,7 @@ export default function Auth({ user }) {
             </div>
 
             <button
+              id="google-signin-btn"
               onClick={handleGoogleSignIn}
               disabled={loading}
               className="w-full bg-white border-2 border-gray-100 text-gray-700 py-3 rounded-xl font-bold hover:bg-gray-50 transition-all flex items-center justify-center space-x-3"

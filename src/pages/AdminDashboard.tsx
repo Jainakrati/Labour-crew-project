@@ -102,19 +102,20 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 space-y-6 md:space-y-0">
+    <div id="admin-dashboard-container" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div id="admin-header" className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 space-y-6 md:space-y-0">
         <div>
           <h1 className="text-4xl font-extrabold text-gray-900 mb-2 flex items-center space-x-3">
             <ShieldAlert className="h-10 w-10 text-red-600" />
-            <span>Admin Control Panel</span>
+            <span id="admin-title">Admin Control Panel</span>
           </h1>
           <p className="text-gray-500 font-medium">
             Manage users, jobs, and platform statistics. 
-            <span className="ml-2 text-indigo-600 font-bold">DB: {dbId}</span>
+            <span id="db-id-badge" className="ml-2 text-indigo-600 font-bold">DB: {dbId}</span>
           </p>
         </div>
         <button 
+          id="seed-data-btn"
           onClick={handleSeedData}
           className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg flex items-center space-x-2"
         >
@@ -124,8 +125,9 @@ export default function AdminDashboard() {
       </div>
 
       {/* Tabs */}
-      <div className="flex space-x-4 mb-12 bg-white p-2 rounded-2xl shadow-lg border border-gray-100 inline-flex">
+      <div id="admin-tabs" className="flex space-x-4 mb-12 bg-white p-2 rounded-2xl shadow-lg border border-gray-100 inline-flex">
         <button
+          id="tab-users-btn"
           onClick={() => setActiveTab('users')}
           className={cn(
             "px-8 py-3 rounded-xl font-bold transition-all flex items-center space-x-2",
@@ -136,6 +138,7 @@ export default function AdminDashboard() {
           <span>Users</span>
         </button>
         <button
+          id="tab-jobs-btn"
           onClick={() => setActiveTab('jobs')}
           className={cn(
             "px-8 py-3 rounded-xl font-bold transition-all flex items-center space-x-2",
@@ -146,6 +149,7 @@ export default function AdminDashboard() {
           <span>Jobs</span>
         </button>
         <button
+          id="tab-stats-btn"
           onClick={() => setActiveTab('stats')}
           className={cn(
             "px-8 py-3 rounded-xl font-bold transition-all flex items-center space-x-2",
@@ -158,10 +162,10 @@ export default function AdminDashboard() {
       </div>
 
       {/* Content */}
-      <div className="bg-white rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden">
+      <div id="admin-content-panel" className="bg-white rounded-[2.5rem] shadow-xl border border-gray-100 overflow-hidden">
         {activeTab === 'users' && (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
+          <div id="users-table-container" className="overflow-x-auto">
+            <table id="users-table" className="w-full text-left">
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
                   <th className="px-8 py-6 font-bold text-gray-900">User</th>
@@ -173,7 +177,7 @@ export default function AdminDashboard() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {users.map(user => (
-                  <tr key={user.id} className="hover:bg-gray-50 transition-colors">
+                  <tr id={`user-row-${user.id}`} key={user.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-8 py-6">
                       <div className="flex items-center space-x-3">
                         <div className="bg-indigo-100 p-2 rounded-full">
@@ -197,6 +201,7 @@ export default function AdminDashboard() {
                     </td>
                     <td className="px-8 py-6 text-right">
                       <button 
+                        id={`delete-user-${user.id}`}
                         onClick={() => handleDeleteUser(user.id)}
                         className="text-red-500 hover:bg-red-50 p-2 rounded-xl transition-colors"
                       >
@@ -211,8 +216,8 @@ export default function AdminDashboard() {
         )}
 
         {activeTab === 'jobs' && (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
+          <div id="jobs-table-container" className="overflow-x-auto">
+            <table id="jobs-table" className="w-full text-left">
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
                   <th className="px-8 py-6 font-bold text-gray-900">Job Title</th>
@@ -224,7 +229,7 @@ export default function AdminDashboard() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {jobs.map(job => (
-                  <tr key={job.id} className="hover:bg-gray-50 transition-colors">
+                  <tr id={`job-row-${job.id}`} key={job.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-8 py-6 font-bold text-gray-900">{job.title}</td>
                     <td className="px-8 py-6 text-gray-500 text-sm">{job.hirerId.slice(0, 8)}...</td>
                     <td className="px-8 py-6">
@@ -238,6 +243,7 @@ export default function AdminDashboard() {
                     <td className="px-8 py-6 font-bold text-gray-900">₹{job.salary}/hr</td>
                     <td className="px-8 py-6 text-right">
                       <button 
+                        id={`delete-job-${job.id}`}
                         onClick={() => handleDeleteJob(job.id)}
                         className="text-red-500 hover:bg-red-50 p-2 rounded-xl transition-colors"
                       >
@@ -252,9 +258,9 @@ export default function AdminDashboard() {
         )}
 
         {activeTab === 'stats' && (
-          <div className="p-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <div className="bg-gray-50 p-8 rounded-[2rem] border border-gray-100">
+          <div id="stats-panel" className="p-12">
+            <div id="stats-grid" className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div id="user-dist-card" className="bg-gray-50 p-8 rounded-[2rem] border border-gray-100">
                 <h3 className="text-xl font-bold text-gray-900 mb-6">User Distribution</h3>
                 <div className="space-y-6">
                   <div>
@@ -265,7 +271,7 @@ export default function AdminDashboard() {
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div 
                         className="bg-purple-600 h-3 rounded-full" 
-                        style={{ width: `${(users.filter(u => u.role === 'worker').length / users.length) * 100}%` }}
+                        style={{ width: `${(users.filter(u => u.role === 'worker').length / (users.length || 1)) * 100}%` }}
                       />
                     </div>
                   </div>
@@ -277,21 +283,21 @@ export default function AdminDashboard() {
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div 
                         className="bg-blue-600 h-3 rounded-full" 
-                        style={{ width: `${(users.filter(u => u.role === 'hirer').length / users.length) * 100}%` }}
+                        style={{ width: `${(users.filter(u => u.role === 'hirer').length / (users.length || 1)) * 100}%` }}
                       />
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-gray-50 p-8 rounded-[2rem] border border-gray-100">
+              <div id="platform-activity-card" className="bg-gray-50 p-8 rounded-[2rem] border border-gray-100">
                 <h3 className="text-xl font-bold text-gray-900 mb-6">Platform Activity</h3>
-                <div className="grid grid-cols-2 gap-6">
-                  <div className="bg-white p-6 rounded-2xl shadow-sm">
+                <div id="activity-summary" className="grid grid-cols-2 gap-6">
+                  <div id="total-jobs-stat" className="bg-white p-6 rounded-2xl shadow-sm">
                     <div className="text-3xl font-bold text-indigo-600">{jobs.length}</div>
                     <div className="text-xs text-gray-500 font-bold uppercase mt-1">Total Jobs</div>
                   </div>
-                  <div className="bg-white p-6 rounded-2xl shadow-sm">
+                  <div id="completed-jobs-stat" className="bg-white p-6 rounded-2xl shadow-sm">
                     <div className="text-3xl font-bold text-green-600">
                       {jobs.filter(j => j.status === 'completed').length}
                     </div>

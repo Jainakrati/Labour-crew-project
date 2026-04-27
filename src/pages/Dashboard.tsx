@@ -169,7 +169,7 @@ export default function Dashboard({ user, userData }) {
     };
   }, [user, userData]);
 
-  const handleAcceptJob = async (job: any) => {
+  const handleAcceptJob = async (job) => {
     if (!user || userData?.role !== 'worker') return;
     try {
       // Check if already applied
@@ -199,7 +199,7 @@ export default function Dashboard({ user, userData }) {
     }
   };
 
-  const handlePostJob = async (e: React.FormEvent) => {
+  const handlePostJob = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -220,7 +220,7 @@ export default function Dashboard({ user, userData }) {
     }
   };
 
-  const handleDeleteJob = async (jobId: string) => {
+  const handleDeleteJob = async (jobId) => {
     if (!window.confirm('Are you sure you want to delete this job?')) return;
     try {
       await deleteDoc(doc(db, 'jobs', jobId));
@@ -229,7 +229,7 @@ export default function Dashboard({ user, userData }) {
     }
   };
 
-  const handleUpdateJobStatus = async (jobId: string, newStatus: string) => {
+  const handleUpdateJobStatus = async (jobId, newStatus) => {
     try {
       await updateDoc(doc(db, 'jobs', jobId), { status: newStatus });
       console.log(`Job ${jobId} status updated to ${newStatus}`);
@@ -238,7 +238,7 @@ export default function Dashboard({ user, userData }) {
     }
   };
 
-  const handleApproveApplication = async (app: any) => {
+  const handleApproveApplication = async (app) => {
     try {
       // Fetch worker details for contact info
       const workerDoc = await getDoc(doc(db, 'users', app.workerId));
@@ -272,7 +272,7 @@ export default function Dashboard({ user, userData }) {
     }
   };
 
-  const handleCompleteBooking = async (booking: any) => {
+  const handleCompleteBooking = async (booking) => {
     try {
       await updateDoc(doc(db, 'bookings', booking.id), {
         status: 'completed',
@@ -321,10 +321,10 @@ export default function Dashboard({ user, userData }) {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div id="dashboard-container" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Database Status Banner for Owner */}
       {user?.email === 'jainakrati30@gmail.com' && (
-        <div className="mb-8 bg-indigo-900 text-white p-4 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <div id="admin-db-banner" className="mb-8 bg-indigo-900 text-white p-4 rounded-2xl shadow-lg flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="flex items-center space-x-3">
             <ShieldAlert className="h-6 w-6 text-yellow-400" />
             <div>
@@ -369,7 +369,7 @@ export default function Dashboard({ user, userData }) {
       )}
 
       {/* Header */}
-      <div className="relative rounded-[3rem] p-8 md:p-12 mb-12 overflow-hidden shadow-2xl">
+      <div id="dashboard-header" className="relative rounded-[3rem] p-8 md:p-12 mb-12 overflow-hidden shadow-2xl">
         <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=2000" 
@@ -413,10 +413,11 @@ export default function Dashboard({ user, userData }) {
       </div>
 
       {/* Search and Filter Bar */}
-      <div className="flex flex-col md:flex-row gap-4 mb-12">
-        <div className="flex-1 relative">
+      <div id="filter-bar" className="flex flex-col md:flex-row gap-4 mb-12">
+        <div id="search-container" className="flex-1 relative">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
           <input 
+            id="dashboard-search-input"
             type="text"
             placeholder={userData?.role === 'hirer' ? "Search jobs or workers..." : "Search jobs by title or description..."}
             value={searchTerm}
@@ -531,53 +532,53 @@ export default function Dashboard({ user, userData }) {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-        <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 flex items-center space-x-6">
+      <div id="stats-grid" className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div id="stat-jobs" className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 flex items-center space-x-6">
           <div className="bg-blue-100 p-4 rounded-2xl">
             <Briefcase className="h-8 w-8 text-blue-600" />
           </div>
           <div>
-            <div className="text-3xl font-bold text-gray-900">{jobs.length}</div>
+            <div id="stat-jobs-count" className="text-3xl font-bold text-gray-900">{jobs.length}</div>
             <div className="text-sm text-gray-500 font-medium">{userData?.role === 'hirer' ? 'Active Jobs' : 'Open Jobs'}</div>
           </div>
         </div>
-        <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 flex items-center space-x-6">
+        <div id="stat-apps" className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 flex items-center space-x-6">
           <div className="bg-purple-100 p-4 rounded-2xl">
             <Users className="h-8 w-8 text-purple-600" />
           </div>
           <div>
-            <div className="text-3xl font-bold text-gray-900">{applications.length}</div>
+            <div id="stat-apps-count" className="text-3xl font-bold text-gray-900">{applications.length}</div>
             <div className="text-sm text-gray-500 font-medium">Applications</div>
           </div>
         </div>
-        <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 flex items-center space-x-6">
+        <div id="stat-bookings" className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 flex items-center space-x-6">
           <div className="bg-green-100 p-4 rounded-2xl">
             <Calendar className="h-8 w-8 text-green-600" />
           </div>
           <div>
-            <div className="text-3xl font-bold text-gray-900">{bookings.length}</div>
+            <div id="stat-bookings-count" className="text-3xl font-bold text-gray-900">{bookings.length}</div>
             <div className="text-sm text-gray-500 font-medium">Bookings</div>
           </div>
         </div>
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div id="main-content-grid" className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* Left Column: Jobs or Workers */}
-        <div className="lg:col-span-2 space-y-8">
+        <div id="left-column" className="lg:col-span-2 space-y-8">
           {userData?.role === 'hirer' ? (
             <>
-              <div className="flex items-center justify-between mb-6">
+              <div id="hirer-workers-header" className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">Find Workers</h2>
-                <div className="flex items-center space-x-2 text-indigo-600 font-bold cursor-pointer hover:underline">
+                <div id="view-all-workers-link" className="flex items-center space-x-2 text-indigo-600 font-bold cursor-pointer hover:underline">
                   <span>View All Workers</span>
                   <ArrowRight className="h-4 w-4" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div id="workers-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {filteredWorkers.map((worker: any) => (
-                  <div key={worker.id} className="bg-white p-6 rounded-3xl shadow-xl border border-gray-100 hover:shadow-2xl transition-all">
+                  <div id={`worker-card-${worker.id}`} key={worker.id} className="bg-white p-6 rounded-3xl shadow-xl border border-gray-100 hover:shadow-2xl transition-all">
                     <div className="flex items-center space-x-4 mb-4">
                       <img 
                         src={worker.photoURL || `https://picsum.photos/seed/${worker.uid}/100/100`} 
@@ -621,22 +622,23 @@ export default function Dashboard({ user, userData }) {
                 ))}
               </div>
 
-              <div className="mt-12">
+              <div id="hirer-jobs-section" className="mt-12">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold text-gray-900">Your Job Postings</h2>
                 </div>
                 {filteredJobs.length === 0 ? (
-                  <div className="bg-white rounded-3xl p-12 text-center border-2 border-dashed border-gray-200">
+                  <div id="no-jobs-posted-view" className="bg-white rounded-3xl p-12 text-center border-2 border-dashed border-gray-200">
                     <Briefcase className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                     <h3 className="text-xl font-bold text-gray-900 mb-2">No jobs found</h3>
                     <p className="text-gray-500">You haven't posted any jobs yet.</p>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div id="hirer-jobs-grid" className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {filteredJobs.map((job: any) => (
                       <JobCard 
                         key={job.id} 
                         job={job} 
+                        id={`job-card-${job.id}`}
                         isHirer={true}
                         isAdmin={userData?.role === 'admin'}
                         isApplied={false}
@@ -694,19 +696,19 @@ export default function Dashboard({ user, userData }) {
         </div>
 
         {/* Right Column: Activity/Applications */}
-        <div className="space-y-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+        <div id="right-column" className="space-y-8">
+          <h2 id="activity-title" className="text-2xl font-bold text-gray-900 mb-6">
             {userData?.role === 'hirer' ? 'Recent Applications' : 'Your Applications'}
           </h2>
           
-          <div className="space-y-4">
+          <div id="applications-list" className="space-y-4">
             {applications.length === 0 ? (
-              <div className="bg-white rounded-3xl p-8 text-center border border-gray-100 shadow-lg">
+              <div id="no-apps-view" className="bg-white rounded-3xl p-8 text-center border border-gray-100 shadow-lg">
                 <p className="text-gray-500 italic">No recent activity</p>
               </div>
             ) : (
               applications.slice(0, 5).map(app => (
-                <div key={app.id} className="bg-white p-5 rounded-2xl shadow-md border border-gray-50 flex items-center justify-between hover:shadow-lg transition-shadow">
+                <div id={`app-item-${app.id}`} key={app.id} className="bg-white p-5 rounded-2xl shadow-md border border-gray-50 flex items-center justify-between hover:shadow-lg transition-shadow">
                   <div className="flex items-center space-x-4">
                     <div className={cn(
                       "p-3 rounded-xl",
@@ -731,6 +733,7 @@ export default function Dashboard({ user, userData }) {
                   </div>
                   {userData?.role === 'hirer' && app.status === 'pending' && (
                     <button 
+                      id={`hire-btn-${app.id}`}
                       onClick={() => handleApproveApplication(app)}
                       className="bg-indigo-600 text-white px-3 py-1.5 rounded-xl hover:bg-indigo-700 transition-all shadow-md font-bold text-xs flex items-center space-x-1"
                     >
@@ -743,15 +746,15 @@ export default function Dashboard({ user, userData }) {
             )}
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-6">Recent Bookings</h2>
-          <div className="space-y-4">
+          <h2 id="bookings-title" className="text-2xl font-bold text-gray-900 mt-12 mb-6">Recent Bookings</h2>
+          <div id="bookings-list" className="space-y-4">
             {bookings.length === 0 ? (
-              <div className="bg-white rounded-3xl p-8 text-center border border-gray-100 shadow-lg">
+              <div id="no-bookings-view" className="bg-white rounded-3xl p-8 text-center border border-gray-100 shadow-lg">
                 <p className="text-gray-500 italic">No bookings yet</p>
               </div>
             ) : (
               bookings.slice(0, 5).map(booking => (
-                <div key={booking.id} className="bg-white p-4 rounded-2xl shadow-md border border-gray-50 flex items-center justify-between">
+                <div id={`booking-item-${booking.id}`} key={booking.id} className="bg-white p-4 rounded-2xl shadow-md border border-gray-50 flex items-center justify-between">
                   <div className="flex items-center space-x-4">
                     <div className="bg-green-50 p-2 rounded-xl">
                       <Calendar className="h-6 w-6 text-green-600" />
@@ -773,6 +776,7 @@ export default function Dashboard({ user, userData }) {
                   </div>
                   {userData?.role === 'hirer' && booking.status === 'scheduled' && (
                     <button 
+                      id={`complete-booking-btn-${booking.id}`}
                       onClick={() => handleCompleteBooking(booking)}
                       className="text-indigo-600 hover:text-indigo-700 font-bold text-xs"
                     >
@@ -780,7 +784,7 @@ export default function Dashboard({ user, userData }) {
                     </button>
                   )}
                   {booking.status === 'completed' && (
-                    <div className="flex items-center text-green-600 text-xs font-bold">
+                    <div id={`booking-done-${booking.id}`} className="flex items-center text-green-600 text-xs font-bold">
                       <CheckCircle className="h-4 w-4 mr-1" />
                       Done
                     </div>

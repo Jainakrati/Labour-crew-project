@@ -118,17 +118,19 @@ export default function Profile({ user, userData: currentUserData }) {
   const isOwnProfile = user?.uid === uid;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+    <div id="profile-page-container" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div id="profile-grid" className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* Left Column: Profile Card */}
-        <div className="space-y-8">
+        <div id="profile-left-column" className="space-y-8">
           <motion.div 
+            id="profile-card"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="bg-white rounded-[2.5rem] p-8 shadow-xl border border-gray-100 text-center relative overflow-hidden"
           >
-            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-indigo-600 to-purple-600 overflow-hidden">
+            <div id="profile-banner" className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-indigo-600 to-purple-600 overflow-hidden">
               <img 
+                id="profile-banner-img"
                 src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=1000" 
                 alt="Profile cover" 
                 className="w-full h-full object-cover opacity-30"
@@ -137,24 +139,25 @@ export default function Profile({ user, userData: currentUserData }) {
             </div>
             
             <div className="relative z-10 pt-8">
-              <div className="mb-6 relative inline-block">
+              <div id="profile-avatar-container" className="mb-6 relative inline-block">
                 {profileData?.photoURL ? (
                   <img 
+                    id="profile-avatar-img"
                     src={profileData.photoURL} 
                     className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white shadow-2xl" 
                     referrerPolicy="no-referrer" 
                     alt="Profile" 
                   />
                 ) : (
-                  <div className="w-32 h-32 rounded-full bg-indigo-100 flex items-center justify-center mx-auto border-4 border-white shadow-2xl">
+                  <div id="profile-avatar-placeholder" className="w-32 h-32 rounded-full bg-indigo-100 flex items-center justify-center mx-auto border-4 border-white shadow-2xl">
                     <User className="h-16 w-16 text-indigo-600" />
                   </div>
                 )}
-                <div className="absolute bottom-2 right-2 bg-green-500 border-4 border-white w-6 h-6 rounded-full" />
+                <div id="profile-status-indicator" className="absolute bottom-2 right-2 bg-green-500 border-4 border-white w-6 h-6 rounded-full" />
               </div>
 
-              <h1 className="text-3xl font-extrabold text-gray-900 mb-2">{profileData?.displayName || 'Anonymous'}</h1>
-              <div className={cn(
+              <h1 id="profile-name" className="text-3xl font-extrabold text-gray-900 mb-2">{profileData?.displayName || 'Anonymous'}</h1>
+              <div id="profile-role-badge" className={cn(
                 "inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6",
                 profileData?.role === 'hirer' ? "bg-blue-100 text-blue-600" : "bg-purple-100 text-purple-600"
               )}>
@@ -162,45 +165,45 @@ export default function Profile({ user, userData: currentUserData }) {
                 {profileData?.role}
               </div>
 
-              <div className="flex items-center justify-center space-x-2 mb-8">
+              <div id="profile-rating-section" className="flex items-center justify-center space-x-2 mb-8">
                 <Star className="h-5 w-5 text-yellow-400 fill-current" />
-                <span className="text-xl font-bold text-gray-900">{profileData?.rating || '0.0'}</span>
-                <span className="text-gray-500">({profileData?.reviewCount || 0} reviews)</span>
+                <span id="profile-rating-value" className="text-xl font-bold text-gray-900">{profileData?.rating || '0.0'}</span>
+                <span id="profile-review-count" className="text-gray-500">({profileData?.reviewCount || 0} reviews)</span>
               </div>
 
-              <div className="space-y-4 text-left border-t border-gray-50 pt-8">
+              <div id="profile-info-list" className="space-y-4 text-left border-t border-gray-50 pt-8">
                 {(isOwnProfile || currentUserData?.role === 'admin') && (
-                  <div className="flex items-center space-x-3 text-gray-600">
+                  <div id="profile-info-email" className="flex items-center space-x-3 text-gray-600">
                     <Mail className="h-5 w-5 text-indigo-500" />
                     <span className="text-sm font-medium">
                       {isOwnProfile ? user.email : "Email hidden for privacy"}
                     </span>
                   </div>
                 )}
-                <div className="flex items-center space-x-3 text-gray-600">
+                <div id="profile-info-joined" className="flex items-center space-x-3 text-gray-600">
                   <Calendar className="h-5 w-5 text-indigo-500" />
                   <span className="text-sm font-medium">Joined {profileData?.createdAt?.toDate ? new Date(profileData.createdAt.toDate()).toLocaleDateString() : 'Recently'}</span>
                 </div>
                 {profileData?.location && (
-                  <div className="flex items-center space-x-3 text-gray-600">
+                  <div id="profile-info-location" className="flex items-center space-x-3 text-gray-600">
                     <MapPin className="h-5 w-5 text-indigo-500" />
                     <span className="text-sm font-medium">{profileData.location}</span>
                   </div>
                 )}
                 {isOwnProfile && profileData?.phoneNumber && (
-                  <div className="flex items-center space-x-3 text-gray-600">
+                  <div id="profile-info-phone" className="flex items-center space-x-3 text-gray-600">
                     <Phone className="h-5 w-5 text-indigo-500" />
                     <span className="text-sm font-medium">{profileData.phoneNumber}</span>
                   </div>
                 )}
                 {isOwnProfile && profileData?.address && (
-                  <div className="flex items-center space-x-3 text-gray-600">
+                  <div id="profile-info-address" className="flex items-center space-x-3 text-gray-600">
                     <Home className="h-5 w-5 text-indigo-500" />
                     <span className="text-sm font-medium">{profileData.address}</span>
                   </div>
                 )}
                 {profileData?.role === 'worker' && (
-                  <div className="flex items-center space-x-3 text-gray-600">
+                  <div id="profile-info-rate" className="flex items-center space-x-3 text-gray-600">
                     <span className="text-indigo-500 font-bold text-lg">₹</span>
                     <span className="text-sm font-medium">{profileData.hourlyRate || 0}/hr</span>
                   </div>
@@ -209,6 +212,7 @@ export default function Profile({ user, userData: currentUserData }) {
 
               {isOwnProfile && (
                 <button 
+                  id="edit-profile-btn"
                   onClick={() => setIsEditing(true)}
                   className="mt-8 w-full bg-indigo-600 text-white py-3 rounded-xl font-bold hover:bg-indigo-700 transition-all flex items-center justify-center space-x-2 shadow-lg"
                 >
@@ -232,13 +236,13 @@ export default function Profile({ user, userData: currentUserData }) {
                 <span>Skills & Expertise</span>
               </h3>
               <div className="flex flex-wrap gap-2">
-                {profileData?.skills && profileData.skills.length > 0 ? (
-                  profileData.skills.map((skill: string, i: number) => (
-                    <span key={i} className="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl text-sm font-bold">
-                      {skill}
-                    </span>
-                  ))
-                ) : (
+                  {profileData?.skills && profileData.skills.length > 0 ? (
+                    profileData.skills.map((skill, i) => (
+                      <span id={`skill-badge-${i}`} key={i} className="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl text-sm font-bold">
+                        {skill}
+                      </span>
+                    ))
+                  ) : (
                   <p className="text-gray-500 italic text-sm">No skills listed yet.</p>
                 )}
               </div>
@@ -247,41 +251,43 @@ export default function Profile({ user, userData: currentUserData }) {
         </div>
 
         {/* Right Column: Bio & Reviews */}
-        <div className="lg:col-span-2 space-y-8">
+        <div id="profile-right-column" className="lg:col-span-2 space-y-8">
           <motion.div 
+            id="profile-bio-section"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-gray-100"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center space-x-3">
+            <h2 id="bio-title" className="text-2xl font-bold text-gray-900 mb-6 flex items-center space-x-3">
               <MessageSquare className="h-7 w-7 text-indigo-600" />
               <span>About Me</span>
             </h2>
-            <p className="text-gray-600 leading-relaxed text-lg whitespace-pre-wrap">
+            <p id="bio-content" className="text-gray-600 leading-relaxed text-lg whitespace-pre-wrap">
               {profileData?.bio || "This user hasn't written a bio yet."}
             </p>
           </motion.div>
 
           <motion.div 
+            id="profile-reviews-section"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
             className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-xl border border-gray-100"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-8 flex items-center space-x-3">
+            <h2 id="reviews-title" className="text-2xl font-bold text-gray-900 mb-8 flex items-center space-x-3">
               <Star className="h-7 w-7 text-yellow-400" />
               <span>Reviews & Feedback</span>
             </h2>
 
             {reviews.length === 0 ? (
-              <div className="text-center py-12 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
+              <div id="no-reviews-view" className="text-center py-12 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
                 <Star className="h-12 w-12 text-gray-300 mx-auto mb-4" />
                 <p className="text-gray-500 font-medium">No reviews yet.</p>
               </div>
             ) : (
-              <div className="space-y-8">
+              <div id="reviews-list" className="space-y-8">
                 {reviews.map(review => (
-                  <div key={review.id} className="border-b border-gray-100 last:border-0 pb-8 last:pb-0">
+                  <div id={`review-item-${review.id}`} key={review.id} className="border-b border-gray-100 last:border-0 pb-8 last:pb-0">
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex items-center space-x-3">
                         <div className="bg-indigo-50 p-2 rounded-full">

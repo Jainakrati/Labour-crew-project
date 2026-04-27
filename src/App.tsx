@@ -26,21 +26,24 @@ import ChatBot from './components/ChatBot';
 async function testConnection(retries = 3) {
   console.log(`Testing connection to Firestore (Attempt ${4 - retries}/3)...`);
   try {
-    await getDoc(doc(db, 'jobs', 'connection-test'));
+    // Specifically use getDocFromServer to test real connectivity and bypass cache
+    await getDocFromServer(doc(db, 'jobs', 'connection-test'));
     console.log("Firestore connection successful");
   } catch (error) {
     if (error instanceof Error) {
-      if (error.message.includes('the client is offline') || error.message.includes('unavailable')) {
+      // Check for 'the client is offline' or 'unavailable' which indicates connection issues
+      if (error.message.includes('the client is offline') || error.message.includes('unavailable') || error.message.includes('Failed to get document')) {
         if (retries > 0) {
-          console.warn(`Firestore backend unavailable, retrying in 2s... (${retries} retries left)`);
-          setTimeout(() => testConnection(retries - 1), 2000);
+          console.warn(`Firestore backend unavailable, retrying in 3s... (${retries} retries left)`);
+          setTimeout(() => testConnection(retries - 1), 3000);
         } else {
-          console.error("Could not reach Cloud Firestore backend after multiple attempts. This might be due to a network issue or the database not being fully provisioned yet.");
+          console.error("Could not reach Cloud Firestore backend. Please check your Firebase configuration and internet connection.");
         }
       } else if (error.message.includes('permission')) {
-        console.log("Firestore permission check: Rules are propagating. This is normal during initial setup.");
+        // Permission errors are technically successful connections
+        console.log("Firestore connection successful (Permission check received)");
       } else {
-        console.error("Firestore connection error:", error.message);
+        console.error("Firestore connection test error:", error.message);
       }
     }
   }
@@ -100,8 +103,8 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-white"></div>
+      <div id="loading-screen" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
+        <div id="loading-spinner" className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-white"></div>
       </div>
     );
   }
@@ -109,9 +112,9 @@ export default function App() {
   return (
     <ErrorBoundary>
       <Router>
-        <div className="min-h-screen flex flex-col bg-gray-50">
+        <div id="app-root" className="min-h-screen flex flex-col bg-gray-50">
           <Navbar user={user} userData={userData} />
-          <main className="flex-grow">
+          <main id="main-content" className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
