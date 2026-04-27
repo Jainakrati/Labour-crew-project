@@ -50,7 +50,7 @@ export default function ChatBot() {
 
       const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
-        model: "gemini-1.5-flash",
+        model: "gemini-3-flash-preview",
         contents: [{ role: "user", parts: [{ text: input }] }],
         config: {
           systemInstruction: `You are TaskAI, a highly intelligent and friendly assistant for a professional job and task platform. 
@@ -79,13 +79,18 @@ export default function ChatBot() {
 
       setMessages((prev) => [...prev, botMessage]);
     } catch (error: any) {
-      console.error("ChatBot Error:", error);
-      let errorMessageContent = "Sorry, I'm having some trouble connecting right now. Please try again later.";
+      console.error("ChatBot Error Detail:", error);
+      let errorMessageContent = "Something went wrong. Please check your console for details.";
       
       if (error.message === "API_KEY_MISSING") {
-        errorMessageContent = "Gemini API key not found. Please add 'VITE_GEMINI_API_KEY=your_key' to your .env file and restart your dev server.";
-      } else if (error.message?.includes("API_KEY_INVALID") || error.status === "INVALID_ARGUMENT") {
-        errorMessageContent = "Your Gemini API key seems to be invalid or there was a configuration error. Please check your key in the .env file.";
+        errorMessageContent = "MISSING API KEY: Please add 'VITE_GEMINI_API_KEY=your_key' to your .env file and RESTART your dev server.";
+      } else if (error.message?.includes("API key not valid") || error.message?.includes("API_KEY_INVALID")) {
+        errorMessageContent = "INVALID API KEY: The key in your .env file is not valid. Please double-check it at the Google AI Studio console.";
+      } else if (error.message?.includes("fetch failed") || !navigator.onLine) {
+        errorMessageContent = "CONNECTION ERROR: Please check your internet connection and ensure your API key has access to Gemini.";
+      } else if (error.message) {
+        // Show actual error message to help user debug
+        errorMessageContent = `Chat Error: ${error.message}`;
       }
       
       const errorMessage = {
