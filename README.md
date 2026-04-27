@@ -1,20 +1,55 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+🚀 Labour Crew Hiring Platform
 
-# Run and deploy your AI Studio app
+A web-based application designed to connect users with skilled laborers for various services such as construction, maintenance, and household work. The platform enables users to easily hire workers, while providing an organized system for managing jobs and roles.
 
-This contains everything you need to run your app locally.
+📌 Features
+👷 Worker hiring system
+🔐 Role-based authentication (User / Admin)
+📋 Job listing and management
+💬 AI chatbot integration (Gemini API)
+📱 Fully responsive design
+🛠️ Tech Stack
+Frontend: HTML, CSS, TypeScript
+Framework: Vite + React
+API: Gemini API
+Package Manager: npm
+⚙️ Run Locally
+Prerequisites
+Install Node.js
+Steps
 
-View your app in AI Studio: https://ai.studio/apps/f7af6049-a754-4e25-94e4-39d9be1d8e97
+Clone the repository:
 
-## Run Locally
+git clone https://github.com/jainakrati/Labour-crew-project.git
 
-**Prerequisites:**  Node.js
+Go to the project folder:
+
+cd Labour-crew-project
+
+Install dependencies:
+
+npm install
+
+Create a .env.local file in the root folder and add:
+
+GEMINI_API_KEY=your_api_key_here
+
+Start the development server:
+
+npm run dev
+
+Open your browser and go to:
+
+http://localhost:5173
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+📈 Future Improvements-
+💳 Payment integration
+💬 Real-time chat system
+⭐ Worker rating and review system
+
+👩‍💻 Author
+Akrati Jain
+
+📄 License
+This project is for educational purposes only.
