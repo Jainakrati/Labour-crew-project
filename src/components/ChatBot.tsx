@@ -40,10 +40,18 @@ export default function ChatBot() {
     setIsLoading(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+      const viteKey = (import.meta as any).env.VITE_GEMINI_API_KEY;
+      const processKey = typeof process !== 'undefined' ? process.env?.GEMINI_API_KEY : undefined;
+      const apiKey = viteKey || processKey;
+      
+      if (!apiKey || apiKey === 'MY_GEMINI_API_KEY' || apiKey === '') {
+        throw new Error("API_KEY_MISSING");
+      }
+
+      const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: input,
+        model: "gemini-1.5-flash",
+        contents: [{ role: "user", parts: [{ text: input }] }],
         config: {
           systemInstruction: `You are TaskAI, a highly intelligent and friendly assistant for a professional job and task platform. 
           
@@ -70,11 +78,19 @@ export default function ChatBot() {
       };
 
       setMessages((prev) => [...prev, botMessage]);
-    } catch (error) {
+    } catch (error: any) {
       console.error("ChatBot Error:", error);
+      let errorMessageContent = "Sorry, I'm having some trouble connecting right now. Please try again later.";
+      
+      if (error.message === "API_KEY_MISSING") {
+        errorMessageContent = "Gemini API key not found. Please add 'VITE_GEMINI_API_KEY=your_key' to your .env file and restart your dev server.";
+      } else if (error.message?.includes("API_KEY_INVALID") || error.status === "INVALID_ARGUMENT") {
+        errorMessageContent = "Your Gemini API key seems to be invalid or there was a configuration error. Please check your key in the .env file.";
+      }
+      
       const errorMessage = {
         role: 'bot',
-        content: "Sorry, I'm having some trouble connecting right now. Please try again later.",
+        content: errorMessageContent,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
